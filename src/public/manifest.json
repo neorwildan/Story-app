@@ -22,22 +22,28 @@
   ],
   "screenshots": [
     {
-        "src": "/public/images/screenshots/Storyapp_001.png",
-        "sizes": "1920x1043",
+        "src": "/images/screenshots/Storyapp_001.png",
+        "sizes": "1366x598",
         "type": "image/png",
         "form_factor": "wide"
     },
     {
-        "src": "/public/images/screenshots/Storyapp_002.png",
-        "sizes": "1920x1043",
+        "src": "/images/screenshots/Storyapp_002.png",
+        "sizes": "1366x598",
         "type": "image/png",
         "form_factor": "wide"
     },
     {
-        "src": "/public/images/screenshots/Storyapp_003.png",
-        "sizes": "1920x1043",
+        "src": "/images/screenshots/Storyapp_003.png",
+        "sizes": "1366x598",
         "type": "image/png",
         "form_factor": "wide"
+    },
+    {
+        "src": "/images/screenshots/Storyapp_004.png",
+        "sizes": "1046x540",
+        "type": "image/png",
+        "form_factor": "narrow"
     }
   ],
   "shortcuts": [
