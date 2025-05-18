@@ -10,14 +10,16 @@
   "theme_color": "#4f46e5",
   "icons": [
     {
-      "src": "/public/images/icon-192x192.png",
+      "src": "/images/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose":"any"
     },
     {
-      "src": "/public/images/icon-512x512.png",
+      "src": "/images/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose":"any"
     }
   ],
   "screenshots": [
@@ -25,7 +27,8 @@
         "src": "/images/screenshots/Storyapp_001.png",
         "sizes": "1366x598",
         "type": "image/png",
-        "form_factor": "wide"
+        "form_factor": "wide",
+        "purpose": "any"
     },
     {
         "src": "/images/screenshots/Storyapp_002.png",
@@ -41,7 +44,7 @@
     },
     {
         "src": "/images/screenshots/Storyapp_004.png",
-        "sizes": "1046x540",
+        "sizes": "540x1046",
         "type": "image/png",
         "form_factor": "narrow"
     }
@@ -51,11 +54,10 @@
       "name": "Buat Cerita",
       "short_name": "Cerita",
       "description": "Membuat cerita baru.",
-      "url": "/?source=pwa#/add-story",
+      "url": "/#/add-story",
       "icons": [
         {
-          "src": "/public/images/shortcuts/add.png",
-          "type": "image/png",
+          "src": "shortcuts/add.png",
           "sizes": "512x512"
         }
       ]
