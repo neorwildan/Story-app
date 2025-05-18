@@ -89,7 +89,7 @@ async function createBellButton() {
   let isSubscribed = false;
   if ('serviceWorker' in navigator && 'PushManager' in window) {
     try {
-      const registration = await navigator.serviceWorker.getRegistration('sw.bundle');
+      const registration = await navigator.serviceWorker.getRegistration('sw.bundle.js');
       if (registration) {
         const subscription = await registration.pushManager.getSubscription();
         isSubscribed = !!subscription;
