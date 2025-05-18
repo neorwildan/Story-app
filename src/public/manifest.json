@@ -57,7 +57,7 @@
       "url": "/#/add-story",
       "icons": [
         {
-          "src": "shortcuts/add.png",
+          "src": "images/shortcuts/add.png",
           "sizes": "512x512"
         }
       ]

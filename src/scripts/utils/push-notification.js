@@ -2,7 +2,7 @@ const publicVapidKey = 'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx
 
 export async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    const registration = await navigator.serviceWorker.register('/sw.js');
+    const registration = await navigator.serviceWorker.register('/sw.bundle.js');
     return registration;
   }
   return null;

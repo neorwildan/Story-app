@@ -44,31 +44,5 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(reg) {
-              // console.log('Service Worker registered', reg);
-            })
-            .catch(function(err) {
-              console.warn('Service Worker registration failed:', err);
-            });
-        });
-      }
-
-      // PWA install prompt
-      let deferredPrompt;
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        // Optionally, show your own install button and call deferredPrompt.prompt() on click
-        // Example: document.getElementById('install-btn').style.display = 'block';
-      });
-      // Optionally, listen for appinstalled event
-      window.addEventListener('appinstalled', () => {
-        // Optionally, hide install button or show success message
-      });
-    </script>
   </body>
 </html>

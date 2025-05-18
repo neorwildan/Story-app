@@ -89,7 +89,7 @@ async function createBellButton() {
   let isSubscribed = false;
   if ('serviceWorker' in navigator && 'PushManager' in window) {
     try {
-      const registration = await navigator.serviceWorker.getRegistration('/sw.js');
+      const registration = await navigator.serviceWorker.getRegistration('sw.bundle');
       if (registration) {
         const subscription = await registration.pushManager.getSubscription();
         isSubscribed = !!subscription;
@@ -144,7 +144,7 @@ async function createBellButton() {
         window.location.hash = '#/login';
         return;
       }
-      const registration = await navigator.serviceWorker.register('/sw.js');
+      const registration = await navigator.serviceWorker.register('/sw.bundle.js');
       if (!registration) {
         alert('Service worker tidak tersedia.');
         return;
@@ -183,7 +183,7 @@ async function createBellButton() {
     } catch (err) {
       let subscribedNow = false;
       try {
-        const registration = await navigator.serviceWorker.getRegistration('/sw.js');
+        const registration = await navigator.serviceWorker.getRegistration('/sw.bundle.js');
         if (registration) {
           const subscription = await registration.pushManager.getSubscription();
           subscribedNow = !!subscription;
@@ -270,6 +270,8 @@ if (document.readyState === 'complete') {
 } else {
   document.addEventListener('DOMContentLoaded', initApp);
 }
+
+  console.log('Berhasil mendaftarkan service worker.');
 
 window.refreshApp = function() {
   if (appInstance) {
