@@ -324,7 +324,7 @@ export default class AddStoryPage {
         const registration = await navigator.serviceWorker.ready;
         registration.showNotification('Story berhasil dibuat', {
           body: `Anda telah membuat story baru dengan deskripsi: ${description.substring(0, 50)}...`,
-          icon: '/public/images/icon-192x192.png'
+          icon: '/images/icon-192x192.png'
         });
       }
       

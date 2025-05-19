@@ -52,8 +52,8 @@ self.addEventListener('push', (event) => {
     title: 'Story App',
     options: {
       body: event.data?.text() || 'Ada notifikasi baru',
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/icon-192x192.png'
+      icon: '/public/images/icon-192x192.png',
+      badge: '/public/images/icon-192x192.png'
     }
   };
   
@@ -70,54 +70,5 @@ self.addEventListener('notificationclick', (event) => {
         const client = clients.find(c => c.url === urlToOpen);
         return client ? client.focus() : clients.openWindow(urlToOpen);
       })
-  );
-});
-
-const CACHE_VERSION = "v1";
-
-const CACHE_NAMES = {
-  static: `static-cache-${CACHE_VERSION}`,
-  images: `images-cache-${CACHE_VERSION}`,
-  pages: `pages-cache-${CACHE_VERSION}`,
-  api: `api-cache-${CACHE_VERSION}`,
-};
-
-const STATIC_CACHE_URLS = [
-  "/",
-  "/index.html",
-  "/styles/styles.css",
-  "/scripts/index.js",
-];
-
-const ASSET_CACHE_URLS = [
-  "/public/images/icon-192x192.png",
-  "/public/images/icon-512x512.png",
-  "/public/images/default-avatar.png",
-];
-
-const OFFLINE_PAGE = "/index.html";
-const OFFLINE_IMAGE = "/public/images/default-avatar.png";
-
-// INSTALL
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    Promise.all([
-      caches.open(CACHE_NAMES.static).then((cache) => cache.addAll(STATIC_CACHE_URLS)),
-      caches.open(CACHE_NAMES.images).then((cache) => cache.addAll(ASSET_CACHE_URLS)),
-    ])
-  );
-  self.skipWaiting();
-});
-
-// ACTIVATE
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) =>
-      Promise.all(
-        cacheNames
-          .filter((name) => !Object.values(CACHE_NAMES).includes(name))
-          .map((name) => caches.delete(name))
-      )
-    ).then(() => self.clients.claim())
   );
 });
