@@ -1,4 +1,4 @@
-import CONFIG from '../config';
+import { BASE_URL} from '../config';
 
 class StoryApiService {
   static async _fetchWithAuth(url, options = {}, token = null) {
@@ -7,7 +7,7 @@ class StoryApiService {
       ...(token && { 'Authorization': `Bearer ${token}` })
     };
 
-    const response = await fetch(`${CONFIG.BASE_URL}${url}`, {
+    const response = await fetch(`${BASE_URL}${url}`, {
       ...options,
       headers
     });
@@ -27,7 +27,7 @@ class StoryApiService {
 
   static async getGuestStories() {
     try {
-      const response = await fetch(`${CONFIG.BASE_URL}/stories?size=10`);
+      const response = await fetch(`${BASE_URL}/stories?size=10`);
       
       if (!response.ok) {
         throw new Error('Failed to load stories');
@@ -174,7 +174,7 @@ class StoryApiService {
   }
 
   static async register(userData) {
-    const response = await fetch(`${CONFIG.BASE_URL}/register`, {
+    const response = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,72 +1,76 @@
+import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { NetworkFirst, CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { BASE_URL } from './config';
-import { precacheAndRoute } from 'workbox-precaching';
+// Precaching
 precacheAndRoute(self.__WB_MANIFEST);
-
 // Runtime caching
 registerRoute(
-  ({ url }) => {
-    return (
-      url.origin === 'https://fonts.googleapis.com' ||
-      url.origin === 'https://fonts.gstatic.com'
-    );
-  },
-  new CacheFirst({
-    cacheName: 'google-fonts',
-  })
+  ({ url }) => url.origin === 'https://fonts.googleapis.com' || 
+               url.origin === 'https://fonts.gstatic.com',
+  new CacheFirst({ cacheName: 'google-fonts' })
 );
 registerRoute(
-  ({ url }) => {
-    return url.origin === 'https://cdnjs.cloudflare.com' || url.origin.includes('fontawesome');
-  },
-  new CacheFirst({
-    cacheName: 'fontawesome',
-  }),
+  ({ url }) => url.origin === 'https://cdnjs.cloudflare.com' || 
+               url.origin.includes('fontawesome'),
+  new CacheFirst({ cacheName: 'fontawesome' })
 );
 registerRoute(
-  ({ url }) => {
-    return url.origin === 'https://ui-avatars.com';
-  },
+  ({ url }) => url.origin === 'https://ui-avatars.com',
   new CacheFirst({
     cacheName: 'avatars-api',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-    ],
-  }),
+    plugins: [new CacheableResponsePlugin({ statuses: [0, 200] })]
+  })
 );
 registerRoute(
   ({ request, url }) => {
     const baseUrl = new URL(BASE_URL);
     return baseUrl.origin === url.origin && request.destination !== 'image';
   },
-  new NetworkFirst({
-    cacheName: 'citycare-api',
-  }),
+  new NetworkFirst({ cacheName: 'apistory-api' })
 );
 registerRoute(
   ({ request, url }) => {
     const baseUrl = new URL(BASE_URL);
     return baseUrl.origin === url.origin && request.destination === 'image';
   },
-  new StaleWhileRevalidate({
-    cacheName: 'citycare-api-images',
-  }),
+  new StaleWhileRevalidate({ cacheName: 'apistory-images' })
 );
 registerRoute(
-  ({ url }) => {
-    return url.origin.includes('maptiler');
-  },
-  new CacheFirst({
-    cacheName: 'maptiler-api',
-  }),
+  ({ url }) => url.origin.includes('maptiler'),
+  new CacheFirst({ cacheName: 'maptiler-api' })
 );
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
+// Event listeners
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() || {
+    title: 'Story App',
+    options: {
+      body: event.data?.text() || 'Ada notifikasi baru',
+      icon: '/icons/icon-192x192.png',
+      badge: '/icons/icon-192x192.png'
+    }
+  };
+  
+  event.waitUntil(
+    self.registration.showNotification(data.title, data.options)
+  );
+});
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const urlToOpen = new URL('/', self.location.origin).href;
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true })
+      .then((clients) => {
+        const client = clients.find(c => c.url === urlToOpen);
+        return client ? client.focus() : clients.openWindow(urlToOpen);
+      })
+  );
 });
 
 const CACHE_VERSION = "v1";
@@ -115,44 +119,5 @@ self.addEventListener("activate", (event) => {
           .map((name) => caches.delete(name))
       )
     ).then(() => self.clients.claim())
-  );
-});
-
-// PUSH NOTIFICATIONS
-self.addEventListener("push", (event) => {
-  let data = {};
-  try {
-    data = event.data?.json() || {};
-  } catch {
-    data = {
-      title: "Story App",
-      options: {
-        body: event.data?.text() || "Ada notifikasi baru",
-        icon: "/public/images/icon-192x192.png",
-        badge: "/public/images/icon-192x192.png",
-      },
-    };
-  }
-
-  event.waitUntil(
-    self.registration.showNotification(
-      data.title || "Story App",
-      data.options || {}
-    )
-  );
-});
-
-// NOTIFICATION CLICK
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const urlToOpen = new URL("/", self.location.origin).href;
-
-  event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientsArr) => {
-      for (const client of clientsArr) {
-        if (client.url === urlToOpen && "focus" in client) return client.focus();
-      }
-      if (clients.openWindow) return clients.openWindow(urlToOpen);
-    })
   );
 });
