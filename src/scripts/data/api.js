@@ -225,7 +225,7 @@ class StoryApiService {
 
   static async subscribeWebPush(token, subscription) {
     // subscription: { endpoint, keys: { p256dh, auth } }
-    return this._fetchWithAuth('/subscribe', {
+    return this._fetchWithAuth('/notifications/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -239,7 +239,7 @@ class StoryApiService {
   }
 
   static async unsubscribeWebPush(token, endpoint) {
-    return this._fetchWithAuth('/subscribe', {
+    return this._fetchWithAuth('/notifications/subscribe', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ endpoint })
